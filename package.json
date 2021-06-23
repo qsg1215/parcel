@@ -1,0 +1,37 @@
+{
+  "name": "parcel",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "node ./proxy.js ",
+    "build": "parcel build --no-source-maps --out-dir sdk  ./src/pages/**/*.js "
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "autoprefixer": "9.0.0",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "less": "^4.1.1",
+    "parcel-bundler": "^1.9.7",
+    "postcss": "^8.2.1",
+    "postcss-modules": "3.2.0",
+    "postcss-plugin": "^1.0.0"
+  },
+  "alias": {
+    "@": "src"
+  },
+  "type": "module",
+  "dependencies": {
+    "a.js": "^0.0.1",
+    "antd": "^4.16.3",
+    "antd-mobile": "^2.3.4",
+    "axios": "^0.21.1",
+    "js-md5": "^0.7.3",
+    "parcel-proxy-server": "^1.1.0",
+    "ramda": "^0.27.1",
+    "react": "17.0.2",
+    "react-dom": "^17.0.2",
+    "requirejs": "^2.3.6",
+    "three": "^0.129.0"
+  }
+}
