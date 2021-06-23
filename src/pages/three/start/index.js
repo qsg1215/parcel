@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import * as THREE from 'three'
+// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 export default () => {
   useEffect(() => {
@@ -22,6 +23,11 @@ export default () => {
     renderer.setSize(window.innerWidth / 2, window.innerHeight / 2) // 设置尺寸
     // renderer.setSize(window.innerWidth, window.innerHeight)
     document.body.appendChild(renderer.domElement) // 添加渲染器中的dom 节点
+
+    // const controls = new OrbitControls(camera, renderer.domElement)
+
+    // console.log(controls, 'controls')
+
     const animate = () => {
       requestAnimationFrame(animate)
       cube.rotation.x += 0.01
