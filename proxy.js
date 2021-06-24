@@ -1,5 +1,5 @@
-// const ParcelProxyServer = require('parcel-proxy-server')
-import ParcelProxyServer from 'parcel-proxy-server'
+const ParcelProxyServer = require('parcel-proxy-server')
+// import ParcelProxyServer from 'parcel-proxy-server'
 // configure the proxy server
 const server = new ParcelProxyServer({
   entryPoint: './example/index.html',

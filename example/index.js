@@ -5,7 +5,8 @@ import ReactDOM from 'react-dom'
 // import App from '../src/pages/shadow'
 // import App from '../src/pages/module'
 // import App from '../src/pages/three/start'
-import App from '../src/pages/three/drawLine'
+// import App from '../src/pages/three/drawLine'
+import App from '../src/pages/three/drawText'
 
 const root = document.querySelector('#root')
 
