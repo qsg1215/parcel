@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "baseUrl": "./src",
+        "jsx": "react",
+        "paths": {
+            "~*": [
+                "./*",
+            ]
+        },
+    },
+    "include": [
+        "./src/typeScript/**/*"
+    ],
+     "typings": "./typings/index.d.ts",
+    "exclude": []
+}
