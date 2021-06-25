@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import Layout from '@/components/Layout'
 import { Button } from 'antd'
 import * as THREE from 'three'
-import Stats from 'stats-js'
 import styles from './index.less'
 
 THREE.Cache.enabled = true
@@ -32,7 +31,7 @@ export default () => {
   for (const i in fontMap) reverseFontMap[fontMap[i]] = i
   for (const i in weightMap) reverseWeightMap[weightMap[i]] = i
 
-  let container, permalink, hex, pointLight
+  let container, hex, pointLight
   let camera, cameraTarget, scene, renderer
   let group, textMesh1, textMesh2, textGeo, materials
 
@@ -46,7 +45,7 @@ export default () => {
 
   let fontIndex = 1
 
-  let text = 'I.LOVE.YOU',
+  let text = 'hello.world',
     bevelEnabled = true,
     font = undefined,
     fontName = 'optimer',
@@ -129,11 +128,6 @@ export default () => {
     document.addEventListener('pointerup', onPointerUp)
   }
 
-  // 刷新率监听
-  var stats = new Stats()
-  stats.showPanel(0) // 0: fps, 1: ms, 2: mb, 3+: custom
-  document.body.appendChild(stats.dom)
-
   function init() {
     container = document.createElement('div')
     document.body.appendChild(container)
@@ -202,8 +196,6 @@ export default () => {
   function animate() {
     requestAnimationFrame(animate)
     render()
-    stats.begin()
-    stats.end()
   }
   function render() {
     group.rotation.y += (targetRotation - group.rotation.y) * 0.05
@@ -317,9 +309,6 @@ export default () => {
       case 'font':
         fontIndex++
         fontName = reverseFontMap[fontIndex % reverseFontMap.length]
-
-        console.log(fontName, 'fontName')
-
         loadFont()
         break
       case 'weight':
@@ -334,7 +323,6 @@ export default () => {
         break
       case 'bevel':
         bevelEnabled = !bevelEnabled
-
         refreshText()
         break
     }
