@@ -10,7 +10,8 @@ import ReactDOM from 'react-dom'
 // import App from '../src/pages/three/addModel'
 // import App from '../src/pages/three/light/physical'
 // import App from '../src/pages/three/light/pointlights'
-import App from '../src/pages/typeScript/variable'
+// import App from '../src/pages/typeScript/variable'
+import App from '../src/pages/typeScript/interface'
 
 const root = document.querySelector('#root')
 
