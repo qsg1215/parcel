@@ -238,7 +238,7 @@ function Interface() {
     // myArray[1] = "23"
     // const aa = myArray[2];
 
-    // 类类型接口
+    // 实现型接口
     // interface ClockInterface {
     //     currentTime: Date;
     // }
@@ -247,6 +247,7 @@ function Interface() {
     //     currentTime: Date;
     //     constructor(h: number, m: number) { }
     // }
+
 
     // interface ClockInterface {
     //     currentTime: Date;
@@ -262,9 +263,133 @@ function Interface() {
 
     // }
 
+    // 构造函数的描述
+
+    // bad
+    // interface ClockConstructor {
+    //     new(hour: number, minute: number);
+    // }
+
+    // class Clock implements ClockConstructor {
+    //     currentTime: Date;
+    //     constructor(h: number, m: number) { }
+    // }
+
+
+    // 正确描述构造函数
+    // interface ClockConstructor {
+    //     new(hour: number, minute: number): ClockInterface;
+    // }
+
+    // interface ClockInterface {
+    //     tick();
+    // }
+
+    // function createClock(ctor: ClockConstructor, hour: number, minute: number): ClockInterface {
+    //     return new ctor(hour, minute);
+    // }
+
+    // class DigitalClock implements ClockInterface {
+    //     constructor(h: number, m: number) { }
+    //     tick() {
+    //         console.log("beep beep");
+    //     }
+    // }
+    // class AnalogClock implements ClockInterface {
+    //     constructor(h: number, m: number) { }
+    //     tick() {
+    //         console.log("tick tock");
+    //     }
+    // }
+
+
+    // let digital = createClock(DigitalClock, 12, 17);
+    // let analog = createClock(AnalogClock, 7, 32);
+
+    //  接口继承(继承一个)
+    // interface Shape {
+    //     color: string;
+    // }
+
+    // interface Square extends Shape {
+    //     sideLength: number;
+    // }
+    // let square = {} as Square; //  ts 和 tsx 都兼容的写法
+    // // let square = <Square>{ }; // ts 写法
+
+    // square.color = "blue";
+    // square.sideLength = 10;
+
+    //  接口继承(继承多个)
+    // interface Shape {
+    //     color: string;
+    // }
+    // interface PenStroke {
+    //     penWidth: number;
+    // }
+    // interface Square extends Shape, PenStroke {
+    //     sideLength: number;
+    // }
+    // let square = {} as Square;
+    // square.color = "blue";
+    // square.sideLength = 10;
+    // square.penWidth = 5.0;
+
+    // interface Counter {
+    //     (start: string): string;
+    //     interval: number;
+    //     reset(): void;
+    // }
+
+    // function getCounter(): Counter {
+    //     let counter = function (start: string) { } as Counter;//   counter 是个函数对象 中的某一个属性
+    //     console.dir(counter, 'counter')
+    //     counter.interval = 123;
+    //     counter.reset = function () { };
+    //     return counter;
+    // }
+
+    // let c = getCounter();
+    // c('123');
+    // c.reset();
+    // c.interval = 5.0;
+
+    // 接口继承类
+    // class Control {
+    //     private state: any;
+    // }
+
+    // interface SelectableControl extends Control {
+    //     select(): void;
+    // }
+
+    // interface SelectableControl1 {
+    //     select(): void;
+    // }
+
+    // class Button extends Control implements SelectableControl {
+    //     select() { }
+    // }
+
+    // class TextBox extends Control {
+
+    //     select() { }
+    // }
+
+    // 只有control 的子类才能实现SelectableControl接口
+    // class Image implements SelectableControl {
+    //     select() { }
+    // }
+
+    // class Image extends Control implements SelectableControl {
+    //     select() { }
+    // }
+
+
+
 
     return (
-        <div></div>
+        <div>测试</div>
     )
 }
 
