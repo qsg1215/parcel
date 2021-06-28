@@ -13,7 +13,11 @@ import ReactDOM from 'react-dom'
 // import App from '../src/pages/typeScript/variable'
 // import App from '../src/pages/typeScript/interface'
 // import App from '../src/pages/typeScript/const+let'
-import App from '../src/pages/typeScript/class'
+// import App from '../src/pages/typeScript/class'
+// import App from '../src/pages/typeScript/function'
+// import App from '../src/pages/typeScript/generic'
+// import App from '../src/pages/typeScript/enum'
+import App from '../src/pages/typeScript/type'
 
 const root = document.querySelector('#root')
 
