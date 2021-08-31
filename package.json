@@ -5,17 +5,23 @@
   "license": "MIT",
   "scripts": {
     "dev": "node ./proxy.js ",
-    "build": "parcel build --no-source-maps --out-dir sdk  ./src/pages/**/*.js "
+    "build": "parcel build --no-source-maps --out-dir sdk  ./src/pages/**/*.js ",
+    "init": "node ./scripts/create.js"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",
+    "@types/react": "^15.0.0 || ^16.0.0 || ^17.0.0 ",
     "autoprefixer": "9.0.0",
+    "babel-plugin-import": "^1.13.3",
     "babel-plugin-module-resolver": "^4.1.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "less": "^4.1.1",
     "parcel-bundler": "^1.9.7",
+    "parcel-plugin-less-js-enabled": "^1.0.2",
     "postcss": "^8.2.1",
     "postcss-modules": "3.2.0",
     "postcss-plugin": "^1.0.0",
+    "react-hot-loader": "^4.13.0",
     "typescript": "^4.3.4"
   },
   "alias": {
@@ -23,16 +29,20 @@
   },
   "type": "module",
   "dependencies": {
-    "antd": "^4.16.3",
-    "antd-mobile": "^2.3.4",
+    "@ant-design/pro-table": "^2.43.3",
+    "@hx/common-singin": "^2.4.1",
+    "@hx/hx-utils": "^0.1.21",
+    "antd": "4.x",
     "axios": "^0.21.1",
-    "js-md5": "^0.7.3",
+    "clipboard": "^2.0.8",
+    "fe-sdk-userportrait": "^2.3.9",
+    "js-cookie": "^3.0.0",
     "parcel-proxy-server": "^1.1.0",
     "ramda": "^0.27.1",
-    "react": "17.0.2",
-    "react-dom": "^17.0.2",
-    "requirejs": "^2.3.6",
-    "stats-js": "^1.0.1",
-    "three": "^0.129.0"
+    "rc-resize-observer": "^1.0.0",
+    "react": "^16.10.0",
+    "react-dom": "^16.10.0",
+    "react-is": "^16.10.0",
+    "react-router-dom": "^5.2.1"
   }
 }

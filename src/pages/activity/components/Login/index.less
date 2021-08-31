@@ -1,0 +1,63 @@
+.modal {
+  background-color: rgba(rgba(0, 0, 0, 0.4));
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  text-align: center;
+  .card {
+    width: 90%;
+    border-radius: 0.1rem;
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translateX(-50%) translateY(-50%);
+    .container {
+      padding: 0.12rem;
+      border-radius: 0.1rem;
+      background-color: #fff;
+      font-size: 0;
+      img {
+        margin-top: 0.3rem;
+        width: 0.75rem;
+        height: 0.2rem;
+      }
+      .types {
+        margin-top: 0.38rem;
+        color: rgba(39, 39, 85, 0.5);
+        line-height: 0.09rem;
+        display: flex;
+        justify-content: space-evenly;
+        font-size: 0.18rem;
+        font-weight: 500;
+        align-items: flex-end;
+        cursor: pointer;
+        :global {
+          .ant-divider-vertical {
+            height: 0.09rem;
+            line-height: 0.09rem;
+            border-left-color: #d8d8d8;
+          }
+        }
+        .active {
+          color: #272755;
+        }
+      }
+      .loginBox {
+        margin-top: 0.2rem;
+      }
+      .footer {
+        width: 100%;
+        margin-left: -0.12rem;
+        text-align: center;
+        color: rgba(39, 39, 85, 0.3);
+        span {
+          color: rgba(39, 39, 85, 0.8);
+          margin: 0 0.04em;
+        }
+      }
+    }
+  }
+}

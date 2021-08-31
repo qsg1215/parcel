@@ -1,97 +1,180 @@
-import Md5 from 'js-md5'
-import moment from 'moment'
-import { appSecret } from '@/utils/constant'
+import userPortrait from 'fe-sdk-userportrait';
+import Cookies from 'js-cookie'
 
-// 获取单据状态
-export const getBillStatus = (detail) => {
-  if (!detail) return { text: '', color: '' }
-  if (detail['yx_pm.ischeck'] === 0) {
-    return { text: '审批中', color: '#2db7f5' }
+export function isMobile(){
+  const isMobile = navigator.userAgent.match(
+    /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i,
+  );
+  return isMobile
+}
+
+export const PUT_CHANNE_NAME_MAP = {
+  0: '其它',
+  1: '短信',
+  2: 'app首页弹窗',
+  3: 'app分期支付页弹窗',
+  4: 'h5分期支付页弹窗',
+  5: 'app首页banner',
+  6: 'app个人中心banner',
+  7: 'UC手机浏览器广告',
+  8: 'pc首页banner',
+  9: 'pc个人中心banner',
+  20: 'APP开机闪屏',
+  21: 'pc个人中心弹屏',
+  22: '微信公众号',
+  101: '短信-未购用户',
+  102: '短信-已购用户'
+};
+
+// 业务类型
+export const BUSINESS_TYPE_MAP = new Map([
+  ['CLASS', '公开课'],
+  ['ADSENSE', '广告位'],
+  ['CHAT', '嗨聊'],
+  ['MESSAGE', '消息系统'],
+  ['HEADLINE', '嗨头条']
+]);
+
+
+
+/**
+ * 判断当前环境是否为微信环境
+ */
+ export function isWeiXinBrowser() {
+  const ua = navigator.userAgent.toLowerCase();
+  if (ua.indexOf('micromessenger') !== -1) {
+    return true;
+  }
+  return false;
+}
+
+/**
+ * 获取设备来源
+ */
+ export const getDeviceSource = () => {
+  if (!navigator || !navigator.userAgent) {
+    return {
+      id: 99,
+      name: '其他'
+    };
+  }
+  if (!isMobile()) {
+    return {
+      id: 5,
+      name: '电脑PC浏览器'
+    };
   } else {
-    switch (detail['yx_pm.status']) {
-      case 1:
-        return { text: '整改中', color: '#f50' }
-      case 2:
-        return { text: '整改完成', color: '#87d068' }
-      default:
-        return { text: '已完成', color: '#108ee9' }
+    if (isMobile()) {
+      return {
+        id: 1,
+        name: '移动设备'
+      };
     }
+    if (isWeixinBrowser()) {
+      return {
+        id: 3,
+        name: '微信H5'
+      };
+    }
+    return {
+      id: 4,
+      name: '手机浏览器'
+    };
+  }
+};
+
+
+/**
+ * 判断当前环境是否为微信环境
+ */
+
+export function userPortraitInit(eventIdList) {
+  if (window.location.hostname.match(/^192|^localhost/g)) {
+    return;
+  }
+  // TODO 这里需要多环境配置 赤水的请求地址
+
+  // 初始化赤水SDK
+  return userPortrait.init(
+    {
+      serverUrl: '//api-userportraitdc.reg.highso.com.cn',
+      project: 'fe-h5-mkActivity',
+      eventIdList
+    },
+    {
+      debug: false,
+      autoReady: true,
+      fieldAutoFill: false
+    }
+  );
+}
+
+/**
+ * 这也是赤水的一个事件, 不晓得做什么的, 从fe-antd-mkactivity 抄过来的
+ */
+export function trackActivityEnvelop(activityId, data) {
+  if (window.location.hostname.match(/^192|^localhost/g)) {
+    return;
+  }
+//   从cookie中获取customerId
+  const customerId = decodeURIComponent(Cookies.get('H_U_C')).split(',')[0]
+  // /Users/ian/Downloads/myWorkSpace/fe-h5-mkActivity/src/pages/2020_12_12/index.js 102抄过来的额
+  // 102: '短信-已购用户'
+  const channel =  getUrlParam('ch') || 102; // 不晓得为什么是要默认102, fe-antd-mkactivity中代码
+  if (!customerId) {
+    console.log('trackActivityEnvelop 缺少customerId');
+    return;
+  }
+  try {
+    userPortrait.setConfig('distinctId', String(customerId));
+    const contents = {
+      customerId: Number(customerId),
+      putChannel: String(channel),
+      putChannelName: PUT_CHANNE_NAME_MAP[String(channel)],
+      ...data
+    };
+    const sourceType = getDeviceSource();
+    userPortrait.track(activityId, contents, {
+      distinctId: String(customerId),
+      distinctIdType: 6,
+      eventType: 2,
+      sourceType: sourceType.id
+    });
+  } catch (e) {
+    console.error(e);
   }
 }
 
-// 添加新的react
-export const addReactDom = () => {
-  var myScript = document.createElement('script')
-  myScript.type = 'text/javascript'
-  myScript.async = false
-  myScript.src =
-    'https://as.alipayobjects.com/g/component/??react/15.6.1/react.min.js,react/15.6.1/react-dom.min.js'
-  document.body.appendChild(myScript)
-}
 
-// 处理不符合条件的文本数据，并且转换时间显示格式
-export const formatTextValue = (text, formatter) => {
-  if (text && text !== 'undefined' && text !== '') {
-    return formatter ? moment(text.replace(/-/g, '/')).format(formatter) : text
-  }
-  return ''
-}
-
-/*
-sign	是	string	sign=Md5(timestamp+appSecret+pars) sign为时间戳+appSecret+参数以后的32位小写md5值 当接口为get请求时：pars为url中除token、timestamp、sign以外的参数按顺序累加（注意只需要参数值，不需要参数名）
-当接口为post请求时：pars为body中的json字符串
-*/
-export const getSign = (timestamp, params, method) => {
-  let paramStr = ''
-  if (method === 'get') {
-    paramStr = '1'
+// 获取Url 参数
+export function getUrlParam(name, path = location.href) {
+  let result;
+  const getParams = (str) => str.substr(str.indexOf('?') + 1).replace(/#.*\?|#.*$/, '&');
+  var searchParamsStr = getParams(path);
+  const queryParams = new URLSearchParams(`?${searchParamsStr}`);
+  result = queryParams.get(name);
+  if (result != null) {
+    return decodeURIComponent(result);
   } else {
-    paramStr = JSON.stringify(params)
-  }
-  console.log(paramStr, 'paramStr')
-
-  // 看签名文档
-  const paramsStr = `${timestamp + appSecret}${paramStr}`
-  return Md5(paramsStr)
-}
-
-export const callFunction = (moduleName, actionName, params = {}) => {
-  return new Promise((resolve, reject) => {
-    window.scriptUtil
-      .callFunction(`yx_pm.${moduleName}`, `yx_pm.${actionName}`, params)
-      .then((res) => {
-        resolve(res)
-      })
-      .catch((err) => {
-        reject(err)
-      })
-  })
-}
-
-export const checkRes = (res) => {
-  if (!res) {
-    return false
-  }
-  if (res.code != 200) {
-    return false
-  }
-  if (res.data && res.data.data && res.data.code !== 0) {
-    return false
-  }
-  return true
-}
-
-// 解决滚动
-export const removeOtherDom = () => {
-  const currentNode = document.querySelector('#appPreviewWrapper')
-  const { parentNode } = currentNode
-  // 创建新节点
-  const newCurrentNode = document.createElement('div')
-  newCurrentNode.id = 'appPreviewWrapper_new'
-  const ourNode = currentNode.querySelector('.warper')
-  parentNode.replaceChild(newCurrentNode, currentNode)
-  newCurrentNode.appendChild(ourNode)
-  window.onhashchange = () => {
-    window.location.reload()
+    return null;
   }
 }
+
+export const getReportParams = () => {
+  const businessType = getUrlParam('businessType');
+  const chanceSource = getUrlParam('chanceSource');
+  const sourceId = getUrlParam('sourceId');
+  const res = {};
+  if (businessType) {
+    res.businessType = BUSINESS_TYPE_MAP.get(businessType) ?? businessType;
+  }
+  if (chanceSource) {
+    res.chanceSource = CHANCE_SOURCE_MAP.get(chanceSource) ?? chanceSource;
+  }
+  if (sourceId) {
+    res.sourceId = sourceId;
+  }
+  return res;
+};
+
+

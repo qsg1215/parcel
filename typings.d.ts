@@ -13,7 +13,3 @@ declare namespace JSX {
     [elemName: string]: any;
   }
 }
-
-declare enum Directions { Up, Down, Left, Right }
-
-declare function handlerFunc(e: Event): void;
